@@ -84,7 +84,7 @@ input::placeholder, textarea::placeholder {
 }
 
 .form-control, .form-select {
-    border-radius: 8px;
+    border-radius: 50px;
     box-shadow: none;
 }
 
@@ -99,7 +99,9 @@ input::placeholder, textarea::placeholder {
     background-color: #1D8223;
     color: #ffffff;
 }
-
+.netIncomeChart{
+  height: 400px;
+}
 /* TRANSACTION LIST */
 .list-group-item {
     background-color: #fcfcfc;

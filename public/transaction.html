@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction - Expense Tracker</title>
+    <link rel="icon" type="image/png" href="img/iconrupy.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-auto p-0 sidebar-col d-none d-md-block">
+                <div class="sidebar">
+                    <div class="logo">
+                        <img src="img/logo2.png" alt="Logo" />
+                    </div>
+                    <ul class="nav">
+                        <li><a href="expense.html"><i class="bi bi-house me-2"></i> Home</a></li>
+                        <li><a href="transaction.html" class="active"><i class="bi bi-wallet me-2"></i> Transaction</a></li>
+                        <li><a href="#" id="logoutBtnSidebar"><i class="bi bi-box-arrow-left me-2"></i> Logout</a></li>
+                    </ul>
+                    <button class="button" id="addTransactionBtn" data-bs-toggle="modal" data-bs-target="#transactionModal"><i class="bi bi-plus-circle me-2"></i>Add Transactions</button>
+                </div>
+            </div>
+
+            <div class="col p-0 mt-1 main-content-col">
+                <div class="main-content d-flex flex-column">
+                    <div class="container py-2">
+                        <div class="d-flex justify-content-between align-items-center mb-4" style="margin-top: 30px;">
+                            <div class="d-flex align-items-center">
+                                <h2 class="fw-bold" style="color: #007718; font-size: 2.5rem; margin-right: 10px;">Transaction</h2>
+                                <select id="filter-all" class="form-select w-auto mt-2">
+                                    <option value="all">All</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <button class="btn btn-success w-100 py-3" style="background-color: #238636; border-color: none; border-radius: 500px; font-size: 20px;">Unduh Laporan Keuangan</button>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <span class="fw-bold">03/2025</span>
+                            <div>
+                                <button class="btn btn-outline-secondary btn-sm me-2">LAST MONTH</button>
+                                <button class="btn btn-success btn-sm" style="background-color: #238636;">THIS MONTH</button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4 justify-content-center">
+                            <div class="col-6 ">
+                                <div class="card text-center pt-3 justify-content-center" style="border: 1px solid #e0e0e0; border-radius: 10px;">
+                                    <h5 class="text" style="color: #c0c0c0;font-weight: 600;">Income</h5>
+                                    <p class="text-success fw-bold" style="font-size: 1.5rem;" id="summary-income">Rp 50.000</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card text-center pt-3 justify-content-center" style="border: 1px solid #e0e0e0; border-radius: 10px;">
+                                    <h5 class="text" style="color: #c0c0c0;font-weight: 600;">Outcome</h5>
+                                    <p class="text-danger fw-bold" style="font-size: 1.5rem;" id="summary-outcome">Rp 25.000</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-3 mb-4" style="border: 1px solid #e0e0e0; border-radius: 10px;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-semibold">Net Income</h5>
+                                <a href="#" class="btn btn-sm btn-link">See details</a>
+                            </div>
+                            <h3 class="fw-bold" style="color: #007718;" id="net-income">Rp 50.000.00</h3>
+                            <canvas id="netIncomeChart" style="max-height: 180px;"></canvas>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-semibold">Transaksi Terakhir</h5>
+                            <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-sliders"></i></button>
+                        </div>
+                        <div id="latest-transaction-list">
+                            <div class="transaction-group mb-3">
+                                <h6 class="text-muted mb-2">19/05/2025</h6>
+                                <div class="transaction-item d-flex align-items-center justify-content-between bg-light p-3 rounded mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="transaction-icon bg-warning text-white rounded-circle me-3" style="background-color: #ffc107!important;"><i class="bi bi-box-arrow-left"></i></div>
+                                        <div>
+                                            <strong class="d-block">Uang Santunan</strong>
+                                            <small class="text-muted">Santunan Anak Yatim</small>
+                                        </div>
+                                    </div>
+                                    <span class="text-danger fw-bold">-Rp 2.000.000</span>
+                                </div>
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="padding: 1rem;">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title w-150 text-center" id="transactionModalLabel">Add New Transaction</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="expenseForm">
+                        <select id="type" class="form-select mb-2" required>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                        <input type="text" id="amount" class="form-control mb-2" placeholder="Rp" required />
+                        <select id="category" class="form-select mb-2" required></select>
+                        <div class="d-flex gap-2 mb-2">
+                            <input type="date" id="date" class="form-control" required />
+                            <input type="time" id="time" class="form-control" required />
+                        </div>
+                        <textarea id="desc" class="form-control mb-2" placeholder="Description" rows="2" required></textarea>
+                        <button type="submit" class="btn btn-success w-100">Add New Transaction</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/transaction.js"></script> </body>
+</html>

@@ -12,23 +12,14 @@
     <style>
         /* Hapus style di sini karena akan dipindahkan ke index.css atau dihandle Bootstrap */
         body {
-            display: flex; /* Pertahankan ini agar sidebar dan main-content bisa berdampingan */
+            display: flex;
             margin: 0;
-            padding-top: 32px; /* Anda mungkin ingin menghapus ini juga dan menambahkan padding pada .main-content */
+            padding-top: 32px;
             padding-left: 0;
             padding-right: 0;
             background-color: #ffffff;
             color: #333;
         }
-
-        /* Ini akan dihapus atau dihandle oleh Bootstrap */
-        /*
-        .main-content {
-            margin-left: 250px;
-            width: 120%;
-            padding: 5px;
-        }
-        */
 
         #categoryChart {
             display: block;
@@ -54,18 +45,18 @@
                         <li><a href="#"><i class="bi bi-wallet me-2"></i> Transaction</a></li>
                         <li><a href="#" id="logoutBtnSidebar"><i class="bi bi-box-arrow-left me-2"></i> Logout</a></li>
                     </ul>
-                    <button class="button"><i class="bi bi-plus-circle me-2"></i>Add Transactions</button>
+                    <button class="button" id="addTransactionBtn" data-bs-toggle="modal" data-bs-target="#transactionModal"><i class="bi bi-plus-circle me-2"></i>Add Transactions</button>
                 </div>
             </div>
 
             <div class="col p-0 main-content-col">
                 <div class="main-content d-flex flex-column"> <div class="container py-2">
-                        <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+                        <div class="d-flex justify-content-between align-items-center gap-2 mb-4">
                             <div class="d-flex flex-column justify-content-center">
                                 <p class="mb-0 fw-medium text-muted" style="font-size: 1.2rem;">Hello!</p>
                                 <h2 class="fw-bold" style="color: #007718; font-size: 2.5rem;" id="user-name">User</h2>
                             </div>
-                            <div class="d-flex flex-column justify-content-center">
+                            <div class=" flex-column justify-content-center">
                                 <img src="img/profile.png" alt="Logo" />
                             </div>
                         </div>
@@ -76,26 +67,6 @@
                                     <p class="mb-1 text-white">Total Saldo</p>
                                     <h1 class="fw-bold text-white mb-3" id="balance">Rp 5.000.000.000,00</h1>
                                     <button class="btn btn-light btn-sm fw-bold d-flex justify-content-start">Lihat Akun <i class="bi bi-arrow-right"></i></button>
-                                </div>
-
-                                <div class="card text-dark border border-light rounded">
-                                    <div class="card-body">
-                                        <h5 class="mb-2 text-center" style="color: #c0c0c0;">Transaction Form</h5>
-                                        <form id="expenseForm">
-                                            <select id="type" class="form-select mb-2" required>
-                                                <option value="income">Income</option>
-                                                <option value="expense">Expense</option>
-                                            </select>
-                                            <input type="text" id="amount" class="form-control mb-2" placeholder="Rp" required />
-                                            <select id="category" class="form-select mb-2" required></select>
-                                            <div class="d-flex gap-2 mb-2">
-                                                <input type="date" id="date" class="form-control" required />
-                                                <input type="time" id="time" class="form-control" required />
-                                            </div>
-                                            <textarea id="desc" class="form-control mb-2" placeholder="Description" rows="2" required></textarea>
-                                            <button type="submit" class="btn btn-success w-100">Add New uang</button>
-                                        </form>
-                                    </div>
                                 </div>
                             </div>
 
@@ -123,7 +94,34 @@
         </div>
     </div>
 
-    <script type="module" src="js/expense.js"></script>
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="padding: 1rem;">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title w-150 text-center" id="transactionModalLabel">Add New Transaction</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="expenseForm">
+                        <select id="type" class="form-select mb-2" required>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                        <input type="text" id="amount" class="form-control mb-2" placeholder="Rp" required />
+                        <select id="category" class="form-select mb-2" required></select>
+                        <div class="d-flex gap-2 mb-2">
+                            <input type="date" id="date" class="form-control" required />
+                            <input type="time" id="time" class="form-control" required />
+                        </div>
+                        <textarea id="desc" class="form-control mb-2" placeholder="Description" rows="2" required></textarea>
+                        <button type="submit" class="btn btn-success w-100">Add New Transaction</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/expense.js"></script>
 </body>
 </html>

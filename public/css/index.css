@@ -226,21 +226,6 @@ input::placeholder, textarea::placeholder {
 .text-amount {
     font-weight: 600;
     font-size: 1rem;
-}
-.transaction-details {
-    margin-top: 6px;
-    font-size: 0.875rem;
-    color: #555;
-}
-.btn-edit-icon i:hover {
-    color: #ffc107;
-}
-.btn-delete-icon i:hover {
-    color: #dc3545;
-}
-.text-amount {
-    font-weight: 600;
-    font-size: 1rem;
     color: #000; /* atau #212529 untuk abu-abu tua */
 }
 
@@ -283,26 +268,30 @@ input::placeholder, textarea::placeholder {
 
 /* Default styles (untuk layar MD ke atas) */
 .sidebar {
-    /* Hapus position: fixed, width, height, box-shadow dari sini */
-    /* lebar 320px akan diatur melalui @media atau custom class jika col-auto tidak cukup */
     background-color: #ffffff;
-    /* height: 100vh; Ini mungkin tidak perlu lagi jika kolom mengikut tinggi konten */
-    padding: 12px 30px 0 60px;
+    /* Kita akan mengatur tinggi sidebar agar membentang dari atas ke bawah */
+    height: 100vh; /* Membuat sidebar setinggi viewport */
+    padding: 42px 30px 0 60px;
     box-shadow: 2px 0 0 rgba(0, 0, 0, 0.05); /* Pertahankan shadow */
-    /* Hapus z-index jika tidak menyebabkan masalah */
+    position: fixed; /* Memastikan sidebar tetap di tempatnya saat digulir */
+    left: 0;
+    top: 0;
+    width: 350px;
 }
 
 .main-content {
-    /* Hapus margin-left dan width karena akan dihandle oleh Bootstrap col */
+    /* Menyesuaikan margin kiri main content agar tidak tertutup sidebar */
+    margin-left: 200px; /* Sesuai dengan max-width sidebar-col */
     padding: 5px; /* Padding di dalam konten utama */
+    width: calc(100% - 350px); /* Memastikan lebar main-content mengisi sisa ruang */
 }
 
 /* Sesuaikan lebar sidebar di breakpoint MD ke atas (768px) */
 @media (min-width: 768px) {
     .sidebar-col {
         /* Set lebar tetap untuk sidebar pada ukuran MD ke atas */
-        flex: 0 0 350px; /* flex-grow:0, flex-shrink:0, flex-basis: 320px */
-        max-width: 350px;
+        flex: 0 0 200px; /* flex-grow:0, flex-shrink:0, flex-basis: 320px */
+        max-width: 200px;
     }
     .main-content-col {
         /* Pastikan main content mengambil sisa ruang */
@@ -457,4 +446,115 @@ input::placeholder, textarea::placeholder {
         width: 100%;
         justify-content: flex-end;
     }
+}
+
+/* Penyesuaian Modal */
+.modal-backdrop.fade.show {
+    background-color: #000; /* Warna hitam */
+    opacity: 0.7; /* Opacity 70% */
+}
+
+/* Modal Content (Kotak Putih Pop-up) */
+.modal-content {
+    border-radius: 15px; /* Membuat sudut lebih bulat */
+    border: none; /* Menghapus border default Bootstrap */
+}
+
+/* Modal Header Styling */
+.modal-header {
+    position: relative; /* Penting untuk posisi absolut tombol close */
+    padding: 1rem; /* Padding standar, bisa disesuaikan */
+    border-bottom: 1px solid #dee2e6;
+    display: flex; /* Memastikan judul bisa di tengah dengan width 100% */
+    align-items: center; /* Memastikan item di header rata tengah secara vertikal */
+}
+
+.modal-title {
+    color: #238636; /* Warna hijau */
+    font-weight: bold;
+    text-align: center;
+    flex-grow: 1; /* Memungkinkan judul mengisi ruang di antara tombol close dan tepi */
+    margin-right: 20px; /* Memberi ruang agar judul tidak terpotong tombol X */
+    margin-left: 20px; /* Memberi ruang di sisi kiri untuk estetika */
+}
+
+/* Custom Close Button Styling */
+.modal-header .btn-close {
+    position: absolute; /* Posisi absolut di dalam modal-header */
+    top: 10px; /* Jarak dari atas */
+    right: 10px; /* Jarak dari kanan */
+    z-index: 1051; /* Pastikan di atas konten modal lainnya */
+    
+    width: 24px; /* Ukuran tombol lebih kecil */
+    height: 24px; /* Ukuran tombol lebih kecil */
+    border-radius: 50%; /* Bentuk bulat */
+    background-color: #ffffff; /* Background abu-abu muda */
+    color: #555; /* Warna ikon */
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9em; /* Ukuran ikon X lebih kecil */
+    opacity: 0.7;
+    transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    padding: 0; /* Hapus padding bawaan Bootstrap */
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+    background-color: #d0d0d0;
+    color: #333;
+}
+
+/* Styling untuk input form di dalam modal-body */
+.modal-body .form-control,
+.modal-body .form-select {
+    border: 1px solid #ced4da; /* Border standar Bootstrap */
+    border-radius: 8px; /* Sudut membulat */
+    background-color: #fff; /* Background putih */
+    color: #212529; /* Warna teks */
+    padding: 10px 15px; /* Padding standar */
+    margin-bottom: 10px; /* Jarak antar input */
+}
+
+.modal-body .form-control::placeholder {
+    color: #adb5bd; /* Warna placeholder */
+    font-style: italic;
+}
+
+/* Untuk input tanggal dan waktu agar tetap sejajar */
+.modal-body .d-flex.gap-2.mb-2 input {
+    margin-bottom: 0; /* Hapus margin-bottom jika dalam flex row */
+}
+
+/* Penyesuaian untuk Filter "Your Transaction" dan Profile */
+.main-content .d-flex.justify-content-between.align-items-center.gap-3.mb-4 {
+    /* Ini adalah div untuk "Hello! Edo" dan Profile Image */
+    /* Untuk memastikan sejajar, kita bisa menggunakan align-items: center (sudah ada) */
+}
+
+.main-content .d-flex.justify-content-between.align-items-center.mb-4 {
+    /* Ini adalah div untuk "Your Transaction" dan filter dropdowns */
+    /* Pastikan align-items: center sudah ada (seharusnya sudah ada dari Bootstrap d-flex align-items-center) */
+}
+
+.main-content .d-flex.flex-column.justify-content-center:last-child img {
+    /* Ini adalah profile image */
+    /* Untuk menggeser ke kiri, kita bisa pakai margin-left: auto atau sesuaikan lebar kolom */
+    margin-left: 20px; /* Sesuaikan atau gunakan padding pada parent container */
+    max-width: 60px; /* Sesuaikan ukuran gambar jika terlalu besar */
+    height: auto;
+}
+
+/* Sesuaikan padding pada main-content untuk efek sejajar dengan sidebar */
+.main-content .container.py-2 {
+    padding-left: 20px; /* Tambahkan padding kiri agar tidak terlalu mepet ke sidebar */
+    padding-right: 20px; /* Tambahkan padding kanan */
+}
+
+/* Untuk memastikan profil tidak terlalu kanan pada tampilan desktop */
+.main-content .d-flex.justify-content-between.align-items-center.gap-3.mb-4 {
+    /* Gunakan flexbox properties untuk mengatur ruang */
+    /* Untuk 'Hello Edo' di kiri dan profil di kanan */
+    padding-right: 15px; /* Sesuaikan padding agar profil tidak terlalu mepet kanan */
 }

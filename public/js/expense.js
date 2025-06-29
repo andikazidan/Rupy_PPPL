@@ -85,8 +85,8 @@ onAuthStateChanged(auth, async (user) => {
   // const userDocRef = doc(db, "users", currentUserId);
   // const userDocSnap = await getDoc(userDocRef);
   // if (userDocSnap.exists() && userDocSnap.data().name) {
-  //   document.getElementById("user-name").textContent = userDocSnap.data().name;
-  // }
+  //    document.getElementById("user-name").textContent = userDocSnap.data().name;
+  //  }
   const userDocRef = doc(db, "users", currentUserId);
   const userDocSnap = await getDoc(userDocRef);
   if (userDocSnap.exists() && userDocSnap.data().name) {

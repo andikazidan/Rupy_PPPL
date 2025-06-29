@@ -1,124 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expense Tracker</title>
-  <link rel="icon" type="image/png" href="img/iconrupy.png" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/index.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      display: flex;
-      margin: 0;
-      padding-top: 32px;
-      padding-left: 0;
-      padding-right: 0;
-      background-color: #ffffff;
-      color: #333;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="icon" type="image/png" href="img/iconrupy.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Hapus style di sini karena akan dipindahkan ke index.css atau dihandle Bootstrap */
+        body {
+            display: flex; /* Pertahankan ini agar sidebar dan main-content bisa berdampingan */
+            margin: 0;
+            padding-top: 32px; /* Anda mungkin ingin menghapus ini juga dan menambahkan padding pada .main-content */
+            padding-left: 0;
+            padding-right: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
 
-    .main-content {
-      margin-left: 250px;
-      width: 120%;
-      padding: 5px;
-    }
+        /* Ini akan dihapus atau dihandle oleh Bootstrap */
+        /*
+        .main-content {
+            margin-left: 250px;
+            width: 120%;
+            padding: 5px;
+        }
+        */
 
-    #categoryChart {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 300px;
-      max-height: 190px;
-      width: 100%;
-      height: auto;
-    }
-  </style>
+        #categoryChart {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 300px;
+            max-height: 190px;
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo">
-      <img src="img/logo2.png" alt="Logo" />
-    </div>
-    <ul class="nav">
-      <li><a href="expense.html" class="active"><i class="bi bi-house me-2"></i> Home</a></li>
-      <li><a href="#"><i class="bi bi-wallet me-2"></i> Transaction</a></li>
-      <li><a href="#" id="logoutBtnSidebar"><i class="bi bi-box-arrow-left me-2"></i> Logout</a></li>
-    </ul>
-    <button class="button"><i class="bi bi-plus-circle me-2"></i>Add Transactions</button>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content d-flex">
-    <div class="container py-2">
-      <!-- Header -->
-      <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
-        <div class="d-flex flex-column justify-content-center">
-          <p class="mb-0 fw-medium text-muted" style="font-size: 1.2rem;">Hello!</p>
-          <h2 class="fw-bold" style="color: #007718; font-size: 2.5rem;" id="user-name">User</h2>
-        </div>
-        <div class="d-flex flex-column justify-content-center">
-          <img src="img/profile.png" alt="Logo" />
-        </div>
-      </div>
-
-      <div class="row">
-        <!-- Left: Balance & Form -->
-        <div class="col-md-5 mb-4">
-          <div class="total-saldo-box mb-4" style="background-image: url(img/balance.png);">
-            <p class="mb-1 text-white">Total Saldo</p>
-            <h1 class="fw-bold text-white mb-3" id="balance">Rp 5.000.000.000,00</h1>
-            <button class="btn btn-light btn-sm fw-bold">Lihat Akun <i class="bi bi-arrow-right"></i></button>
-          </div>
-
-          <!-- Transaction Form -->
-          <div class="card text-dark border border-light rounded">
-            <div class="card-body">
-              <h5 class="mb-2 text-center" style="color: #c0c0c0;">Transaction Form</h5>
-              <form id="expenseForm">
-                <select id="type" class="form-select mb-2" required>
-                  <option value="income">Income</option>
-                  <option value="expense">Expense</option>
-                </select>
-                <input type="text" id="amount" class="form-control mb-2" placeholder="Rp" required />
-                <select id="category" class="form-select mb-2" required></select>
-                <div class="d-flex gap-2 mb-2">
-                  <input type="date" id="date" class="form-control" required />
-                  <input type="time" id="time" class="form-control" required />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-auto p-0 sidebar-col d-none d-md-block">
+                <div class="sidebar">
+                    <div class="logo">
+                        <img src="img/logo2.png" alt="Logo" />
+                    </div>
+                    <ul class="nav">
+                        <li><a href="expense.html" class="active"><i class="bi bi-house me-2"></i> Home</a></li>
+                        <li><a href="#"><i class="bi bi-wallet me-2"></i> Transaction</a></li>
+                        <li><a href="#" id="logoutBtnSidebar"><i class="bi bi-box-arrow-left me-2"></i> Logout</a></li>
+                    </ul>
+                    <button class="button"><i class="bi bi-plus-circle me-2"></i>Add Transactions</button>
                 </div>
-                <textarea id="desc" class="form-control mb-2" placeholder="Description" rows="2" required></textarea>
-                <button type="submit" class="btn btn-success w-100">Add New uang</button>
-              </form>
             </div>
-          </div>
-        </div>
 
-        <!-- Right: Transactions and Filters -->
-        <div class="col-md-7">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-semibold">Your Transaction</h5>
-            <div class="d-flex gap-2">
-              <select id="filter-type" class="form-select w-auto">
-                <option value="all">All</option>
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
-              </select>
-              <select id="filter-category" class="form-select w-auto"></select>
+            <div class="col p-0 main-content-col">
+                <div class="main-content d-flex flex-column"> <div class="container py-2">
+                        <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+                            <div class="d-flex flex-column justify-content-center">
+                                <p class="mb-0 fw-medium text-muted" style="font-size: 1.2rem;">Hello!</p>
+                                <h2 class="fw-bold" style="color: #007718; font-size: 2.5rem;" id="user-name">User</h2>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <img src="img/profile.png" alt="Logo" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 mb-4">
+                                <div class="total-saldo-box mb-4" style="background-image: url(img/balance.png);">
+                                    <p class="mb-1 text-white">Total Saldo</p>
+                                    <h1 class="fw-bold text-white mb-3" id="balance">Rp 5.000.000.000,00</h1>
+                                    <button class="btn btn-light btn-sm fw-bold d-flex justify-content-start">Lihat Akun <i class="bi bi-arrow-right"></i></button>
+                                </div>
+
+                                <div class="card text-dark border border-light rounded">
+                                    <div class="card-body">
+                                        <h5 class="mb-2 text-center" style="color: #c0c0c0;">Transaction Form</h5>
+                                        <form id="expenseForm">
+                                            <select id="type" class="form-select mb-2" required>
+                                                <option value="income">Income</option>
+                                                <option value="expense">Expense</option>
+                                            </select>
+                                            <input type="text" id="amount" class="form-control mb-2" placeholder="Rp" required />
+                                            <select id="category" class="form-select mb-2" required></select>
+                                            <div class="d-flex gap-2 mb-2">
+                                                <input type="date" id="date" class="form-control" required />
+                                                <input type="time" id="time" class="form-control" required />
+                                            </div>
+                                            <textarea id="desc" class="form-control mb-2" placeholder="Description" rows="2" required></textarea>
+                                            <button type="submit" class="btn btn-success w-100">Add New uang</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="fw-semibold">Your Transaction</h5>
+                                    <div class="d-flex gap-">
+                                        <select id="filter-type" class="form-select w-auto">
+                                            <option value="all">All</option>
+                                            <option value="income">Income</option>
+                                            <option value="expense">Expense</option>
+                                        </select>
+                                        <select id="filter-category" class="form-select w-auto"></select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <canvas id="categoryChart" height="120"></canvas>
+                                </div>
+                                <div id="transaction-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="mb-3">
-            <canvas id="categoryChart" height="120"></canvas>
-          </div>
-          <div id="transaction-list"></div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <script type="module" src="../js/expense.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/expense.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

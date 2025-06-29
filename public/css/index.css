@@ -1,28 +1,28 @@
 /* RESET & BASE */
 body {
     background-color: #ffffff;
-    color: #ffffff;
+    color: #ffffff; /* Ini sepertinya salah, harusnya warna teks yang kontras dengan background putih */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 20px 15px;
+    /* padding: 20px 15px; Ini akan dihandle oleh container-fluid atau padding di dalam kolom */
 }
 .separator {
-  width: 100%; /* atau 'auto', 'fit-content', dll tergantung tujuan */
-  height: 2px;
-  background-color: #d6d6d6;
-  border: none;
-  margin: 1px auto;
-  border-radius: 3px;
+    width: 100%;
+    height: 2px;
+    background-color: #d6d6d6;
+    border: none;
+    margin: 1px auto;
+    border-radius: 3px;
 }
 
 /* Header */
 h2, h5 {
     font-weight: 600;
-    color: #c0c0c0;
+    color: #c0c0c0; /* Ini juga sepertinya salah, harusnya warna teks yang kontras */
     margin-bottom: 0;
 }
 p {
-    color: #c0c0c0;
+    color: #c0c0c0; /* Sama, cek warna ini */
     padding-top: 0%;
 }
 
@@ -113,7 +113,6 @@ input::placeholder, textarea::placeholder {
 }
 .list-group-item:hover {
     background-color: #f3f3f3;
-
 }
 .list-group-item .amount {
     font-weight: 400;
@@ -143,7 +142,7 @@ input::placeholder, textarea::placeholder {
 }
 
 /* FILTER INPUTS */
-.filter-group input[type="date"], 
+.filter-group input[type="date"],
 .filter-group select {
     border-radius: 8px;
     border: 1px solid #ced4da;
@@ -194,198 +193,268 @@ input::placeholder, textarea::placeholder {
 }
 
 .transaction-box {
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 .transaction-box:hover {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 .transaction-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  font-size: 16px;
-  font-weight: bold;
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .transaction-icon.income {
-  background-color: #d1e7dd;
-  color: #198754;
+    background-color: #d1e7dd;
+    color: #198754;
 }
 .transaction-icon.expense {
-  background-color: #f8d7da;
-  color: #dc3545;
+    background-color: #f8d7da;
+    color: #dc3545;
 }
 .text-amount {
-  font-weight: 600;
-  font-size: 1rem;
+    font-weight: 600;
+    font-size: 1rem;
 }
 .transaction-details {
-  margin-top: 6px;
-  font-size: 0.875rem;
-  color: #555;
+    margin-top: 6px;
+    font-size: 0.875rem;
+    color: #555;
 }
 .btn-edit-icon i:hover {
-  color: #ffc107;
+    color: #ffc107;
 }
 .btn-delete-icon i:hover {
-  color: #dc3545;
+    color: #dc3545;
 }
 .text-amount {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #000; /* atau #212529 untuk abu-abu tua */
+    font-weight: 600;
+    font-size: 1rem;
+    color: #000; /* atau #212529 untuk abu-abu tua */
 }
 
 /* Tombol default */
 .btn-edit-icon, .btn-delete-icon {
-  border: none;
-  background-color: transparent;
-  padding: 6px;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease;
+    border: none;
+    background-color: transparent;
+    padding: 6px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
 }
 
 /* Hover efek kotak dan warna ikon */
 .btn-edit-icon:hover {
-  background-color: #fff3cd; /* kuning muda */
+    background-color: #fff3cd; /* kuning muda */
 }
 .btn-edit-icon:hover i {
-  color: #ffc107; /* kuning tua */
+    color: #ffc107; /* kuning tua */
 }
 
 .btn-delete-icon:hover {
-  background-color: #f8d7da; /* merah muda */
+    background-color: #f8d7da; /* merah muda */
 }
 .btn-delete-icon:hover i {
-  color: #dc3545; /* merah tua */
+    color: #dc3545; /* merah tua */
 }
 
 /* Pastikan ikon selalu tampak */
 .btn-edit-icon i, .btn-delete-icon i {
-  color: #343a40; /* abu gelap default */
-  font-size: 1.1rem;
+    color: #343a40; /* abu gelap default */
+    font-size: 1.1rem;
 }
 
-/*sidebar */
+/* ========================================= */
+/* Penyesuaian untuk Sidebar dan Main Content dengan Bootstrap Grid */
+/* ========================================= */
+
+/* Default styles (untuk layar MD ke atas) */
 .sidebar {
-      width: 320px;
-      background-color: #ffffff;
-      height: 100vh;
-      padding: 60px 30px 0 60px;
-      box-shadow: 2px 0 0 rgba(0, 0, 0, 0.05);
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 100;
+    /* Hapus position: fixed, width, height, box-shadow dari sini */
+    /* lebar 320px akan diatur melalui @media atau custom class jika col-auto tidak cukup */
+    background-color: #ffffff;
+    /* height: 100vh; Ini mungkin tidak perlu lagi jika kolom mengikut tinggi konten */
+    padding: 12px 30px 0 60px;
+    box-shadow: 2px 0 0 rgba(0, 0, 0, 0.05); /* Pertahankan shadow */
+    /* Hapus z-index jika tidak menyebabkan masalah */
+}
+
+.main-content {
+    /* Hapus margin-left dan width karena akan dihandle oleh Bootstrap col */
+    padding: 5px; /* Padding di dalam konten utama */
+}
+
+/* Sesuaikan lebar sidebar di breakpoint MD ke atas (768px) */
+@media (min-width: 768px) {
+    .sidebar-col {
+        /* Set lebar tetap untuk sidebar pada ukuran MD ke atas */
+        flex: 0 0 350px; /* flex-grow:0, flex-shrink:0, flex-basis: 320px */
+        max-width: 350px;
+    }
+    .main-content-col {
+        /* Pastikan main content mengambil sisa ruang */
+        flex-grow: 1;
+    }
+}
+
+
+/* Styling internal Sidebar (tetap sama) */
+.sidebar .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 30px;
+    color: #238636;
+    margin-bottom: 40px;
+}
+
+.sidebar .nav {
+    list-style: none;
+    padding-left: 0;
+}
+
+.sidebar .nav li {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.sidebar .nav a {
+    text-decoration: none;
+    color: #C7C7C7;
+    font-weight: 500;
+    font-size: large;
+    display: block;
+    padding-left: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sidebar .nav a:hover {
+    color: #A2A0A0;
+    background-color: #E6E6E6;
+    border-radius: 500px;
+    border-color: #E6E6E6;
+}
+.sidebar .nav a.active {
+    color: #1D8223;
+    background-color: #BAEBBC;
+    border-radius: 500px;
+    border-color: #BAEBBC;
+}
+
+.sidebar button {
+    width: 100%;
+    background-color: #238636;
+    border: none;
+    border-radius: 500px;
+    color: #fff;
+    font-weight: 500;
+    padding: 10px;
+}
+
+.sidebar button:hover {
+    background-color: #136822;
+}
+
+/*TOTAL SALDO (tetap sama) */
+.total-saldo-box {
+    background-image: url("img/balance.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    padding: 20px 30px;
+    color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+}
+
+.total-saldo-box h1 {
+    font-size: 42px!important;
+    margin-bottom: 5px;
+    align-self: flex-start;
+}
+
+.total-saldo-box p {
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+.total-saldo-box .btn-light {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.total-saldo-box .btn-light:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================= */
+/* Media Queries for Responsiveness (hanya untuk mobile/layar kecil) */
+/* ========================================= */
+
+/* Untuk layar lebih kecil dari MD (768px) */
+@media (max-width: 767.98px) {
+    /* header "Hello! Edo" dan profile img di-stack vertikal */
+    .main-content .d-flex.justify-content-between.align-items-center.gap-3.mb-4 {
+        flex-direction: column;
+        text-align: center;
+    }
+    .main-content .d-flex.flex-column.justify-content-center:last-child {
+        margin-top: 15px;
     }
 
-    .sidebar .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: bold;
-      font-size: 30px;
-      color: #238636;
-      margin-bottom: 40px;
-    }
-
-    .sidebar .nav {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .sidebar .nav li {
-      margin-bottom: 5px;
-      width: 100%;
-    }
-
-    .sidebar .nav a {
-      text-decoration: none;
-      color: #C7C7C7;
-      font-weight: 500;
-      font-size: large;
-      display: block;
-      padding-left: 25px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-    }
-
-    .sidebar .nav a:hover {
-      color: #A2A0A0;
-      background-color: #E6E6E6;
-      border-radius: 500px;
-      border-color: #E6E6E6;
-    }
-    .sidebar .nav a.active {
-      color: #1D8223;
-      background-color: #BAEBBC;
-      border-radius: 500px;
-      border-color: #BAEBBC;
-    }
-
-    .sidebar button {
-      width: 100%;
-      background-color: #238636;
-      border: none;
-      border-radius: 500px;
-      color: #fff;
-      font-weight: 500;
-      padding: 10px;
-    }
-
-    .sidebar button:hover {
-      background-color: #136822;
-    }
-
-    /*TOTAL SALDO*/
-    .total-saldo-box {
-      background-image: url("img/balance.png"); /* Pastikan jalur ini benar */
-      background-size: cover;
-      background-position: center;
-      border-radius: 10px; /* Sudut sedikit membulat */
-      padding: 30px 25px; /* Sesuaikan padding sesuai kebutuhan */
-      color: white; /* Warna teks di dalam kotak */
-      position: relative; /* Untuk penempatan tombol atau elemen lain jika diperlukan */
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 180px; /* Sesuaikan tinggi sesuai kebutuhan */
-    }
-
-    .total-saldo-box h1 {
-      font-size: 2.5rem; /* Sesuaikan ukuran font */
-      margin-bottom: 10px;
-    }
-
+    /* Total Saldo Box di mobile */
+    .total-saldo-box h1,
     .total-saldo-box p {
-      font-size: 1.5rem;
-      opacity: 0.8;
+        text-align: center;
     }
-
     .total-saldo-box .btn-light {
-      background-color: rgba(255, 255, 255, 0.2); /* Warna putih sedikit transparan untuk tombol */
-      border: none;
-      color: white;
-      padding: 8px 15px;
-      border-radius: 20px;
-      align-self: flex-start; /* Sejajarkan tombol ke awal */
-      display: flex;
-      align-items: center;
-      gap: 5px;
+        align-self: center;
     }
 
-    .total-saldo-box .btn-light:hover {
-        background-color: rgba(255, 255, 255, 0.3);
+    /* Sesuaikan font size header jika terlalu besar di mobile */
+    .main-content h2 {
+        font-size: 2rem !important;
     }
+    .main-content p.mb-0 {
+        font-size: 1rem !important;
+    }
+
+    /* Jika list item transaksi terlalu padat, bisa ditumpuk */
+    .list-group-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .list-group-item .amount {
+        margin-top: 5px;
+    }
+    .entry-action-buttons {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-end;
+    }
+}

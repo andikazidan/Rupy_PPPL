@@ -115,7 +115,10 @@ onAuthStateChanged(auth, async (user) => {
     }
   });
 
-  logoutBtn?.addEventListener("click", async () => {
+  logoutBtnSidebar?.addEventListener("click", async () => {
+    const confirmLogout = confirm("Are you sure you want to log out?");
+    if (!confirmLogout) return;
+    
     try {
       await signOut(auth);
       localStorage.clear();

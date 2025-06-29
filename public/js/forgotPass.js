@@ -58,7 +58,7 @@ passwordForm.addEventListener('submit', function (e) {
 
   // Redirect ke loading.html setelah 2 detik
   setTimeout(() => {
-    window.location.href = "loading.html";
+    window.location.href = "login.html";
   }, 2000);
 });
 

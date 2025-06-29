@@ -88,13 +88,15 @@ input::placeholder, textarea::placeholder {
 }
 
 .btn-custom {
-    background-color: #198754;
+    background-color: #1D8223;
     color: #ffffff;
     font-weight: 500;
     margin-top: 15px;
 }
+
 .btn-custom:hover {
-    background-color: #157347;
+    background-color: #1D8223;
+    color: #ffffff;
 }
 
 /* TRANSACTION LIST */
@@ -275,3 +277,73 @@ input::placeholder, textarea::placeholder {
   font-size: 1.1rem;
 }
 
+/*sidebar */
+.sidebar {
+      width: 350px;
+      background-color: #ffffff;
+      height: 100vh;
+      padding: 60px;
+      box-shadow: 2px 0 0 rgba(0, 0, 0, 0.05);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      font-size: 30px;
+      color: #238636;
+      margin-bottom: 40px;
+    }
+
+    .sidebar .nav {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .sidebar .nav li {
+      margin-bottom: 5px;
+      width: 300px;
+    }
+
+    .sidebar .nav a {
+      text-decoration: none;
+      color: #C7C7C7;
+      font-weight: 500;
+      font-size: large;
+      display: block;
+      padding-left: 15px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .sidebar .nav a:hover {
+      color: #A2A0A0;
+      background-color: #E6E6E6;
+      border-radius: 500px;
+      border-color: #E6E6E6;
+    }
+    .sidebar .nav a.active {
+      color: #1D8223;
+      background-color: #BAEBBC;
+      border-radius: 500px;
+      border-color: #BAEBBC;
+    }
+
+    .sidebar button {
+      width: 100%;
+      background-color: #238636;
+      border: none;
+      border-radius: 500px;
+      color: #fff;
+      font-weight: 500;
+      padding: 10px;
+    }
+
+    .sidebar button:hover {
+      background-color: #136822;
+    }

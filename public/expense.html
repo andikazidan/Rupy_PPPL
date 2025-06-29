@@ -13,15 +13,17 @@
     body {
       display: flex;
       margin: 0;
-      padding: 0;
+      padding-top: 32px;
+      padding-left: 0;
+      padding-right: 0;
       background-color: #ffffff;
       color: #333;
     }
 
     .main-content {
-      margin-left: 240px;
-      width: calc(100% - 240px);
-      padding: 20px;
+      margin-left: 250px;
+      width: 120%;
+      padding: 5px;
     }
 
     #categoryChart {
@@ -50,28 +52,26 @@
   </div>
 
   <!-- Main Content -->
-  <div class="main-content">
+  <div class="main-content d-flex">
     <div class="container py-2">
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
         <div class="d-flex flex-column justify-content-center">
-          <h2 class="fw-bold" style="color: #007718;" id="user-name">User</h2>
-          <p id="user-email" class="mb-0"></p>
+          <p class="mb-0 fw-medium text-muted" style="font-size: 1.2rem;">Hello!</p>
+          <h2 class="fw-bold" style="color: #007718; font-size: 2.5rem;" id="user-name">User</h2>
+        </div>
+        <div class="d-flex flex-column justify-content-center">
+          <img src="img/profile.png" alt="Logo" />
         </div>
       </div>
 
       <div class="row">
         <!-- Left: Balance & Form -->
         <div class="col-md-5 mb-4">
-          <div class="p-2 text-center mb-2 bg-white shadow-sm rounded border border-light">
-            <h5 class="mb-2" style="color: #c0c0c0;"><i class="bi bi-cash me-2"></i>Balance</h5>
-            <hr class="separator" />
-            <h1 class="fw-bold" id="balance">Rp 0</h1>
-            <hr class="separator" />
-            <div class="text-center mt-3">
-              <span class="text-info me-5"><i class="bi bi-caret-down-fill me-1"></i><span id="total-income">0</span></span>
-              <span class="text-danger"><i class="bi bi-caret-up-fill me-1"></i><span id="total-expense">0</span></span>
-            </div>
+          <div class="total-saldo-box mb-4" style="background-image: url(img/balance.png);">
+            <p class="mb-1 text-white">Total Saldo</p>
+            <h1 class="fw-bold text-white mb-3" id="balance">Rp 5.000.000.000,00</h1>
+            <button class="btn btn-light btn-sm fw-bold">Lihat Akun <i class="bi bi-arrow-right"></i></button>
           </div>
 
           <!-- Transaction Form -->

@@ -81,12 +81,20 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
   currentUserId = user.uid;
-  document.getElementById("user-email").textContent = user.email || "User";
+  // document.getElementById("user-email").textContent = user.email || "User";
+  // const userDocRef = doc(db, "users", currentUserId);
+  // const userDocSnap = await getDoc(userDocRef);
+  // if (userDocSnap.exists() && userDocSnap.data().name) {
+  //   document.getElementById("user-name").textContent = userDocSnap.data().name;
+  // }
   const userDocRef = doc(db, "users", currentUserId);
   const userDocSnap = await getDoc(userDocRef);
   if (userDocSnap.exists() && userDocSnap.data().name) {
     document.getElementById("user-name").textContent = userDocSnap.data().name;
+  } else {
+    document.getElementById("user-name").textContent = "User";
   }
+
   updateCategoryOptions(typeSelect.value);
   updateFilterCategoryOptions();
   fetchEntries(currentUserId);

@@ -8,6 +8,7 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { formatRupiah } from "./utils.js";
+import { initAccountManager } from "./account.js";
 
 // --- Categories ---
 const incomeCategories = [
@@ -40,6 +41,12 @@ const categoryChartEl = document.getElementById("categoryChart");
 const addTransactionBtn = document.getElementById("addTransactionBtn");
 const transactionModalElement = document.getElementById('transactionModal'); // Dapatkan elemen DOM modal
 const transactionModal = new bootstrap.Modal(transactionModalElement); // Instance modal Bootstrap
+const accountSelect = document.getElementById("account-select");
+const totalBalanceText = document.getElementById("total-balance");
+
+let activeAccountId = null;
+let availableAccounts = [];
+
 
 // --- Helpers ---
 function updateCategoryOptions(type, selectEl) {
@@ -111,7 +118,6 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
   currentUserId = user.uid;
-  
   const userDocRef = doc(db, "users", currentUserId);
   const userDocSnap = await getDoc(userDocRef);
   if (userDocSnap.exists() && userDocSnap.data().name) {
@@ -119,7 +125,9 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     document.getElementById("user-name").textContent = "Pengguna";
   }
-
+  await loadAccounts(currentUserId);
+  initAccountManager(currentUserId, () => loadAccounts(currentUserId));
+  
   // Pengaturan awal untuk filter kategori halaman utama
   updateFilterCategoryOptions();
   fetchEntries(currentUserId);
@@ -136,13 +144,21 @@ onAuthStateChanged(auth, async (user) => {
     if (description.length < 3) return alert("Deskripsi terlalu pendek (minimal 3 karakter).");
     try {
       await addDoc(collection(db, "entries"), {
-        userId: currentUserId, amount, description, category, date, time, type,
+        userId: currentUserId,
+        accountId: activeAccountId,
+        amount,
+        description,
+        category,
+        date,
+        time,
+        type,
         createdAt: new Date()
       });
+
       expenseForm.reset(); // Reset form setelah pengiriman
       typeSelect.value = "income"; // Reset tipe ke default untuk entri berikutnya
       updateCategoryOptions(typeSelect.value); // Perbarui kategori untuk form yang direset
-      fetchEntries(currentUserId);
+      await loadAccounts(currentUserId); // Sekaligus memicu fetchEntries()
       transactionModal.hide(); // Sembunyikan modal setelah pengiriman berhasil
     } catch (err) {
       console.error("Gagal menambahkan entri:", err);
@@ -153,7 +169,7 @@ onAuthStateChanged(auth, async (user) => {
   logoutBtnSidebar?.addEventListener("click", async () => {
     const confirmLogout = confirm("Apakah Anda yakin ingin keluar?");
     if (!confirmLogout) return;
-    
+
     try {
       await signOut(auth);
       localStorage.clear();
@@ -167,8 +183,13 @@ onAuthStateChanged(auth, async (user) => {
 
 // --- Pengambilan dan Rendering Data ---
 async function fetchEntries(userId) {
-  const q = query(collection(db, "entries"), where("userId", "==", userId));
+  const q = query(
+    collection(db, "entries"),
+    where("userId", "==", userId),
+    where("accountId", "==", activeAccountId) // <-- Tambahan penting
+  );
   const snapshot = await getDocs(q);
+
 
   // Logika filter
   const selectedType = filterType.value;
@@ -325,4 +346,55 @@ document.addEventListener("DOMContentLoaded", () => {
     typeSelect.value = "income"; // Set nilai default jika belum ada
   }
   updateCategoryOptions(typeSelect.value); // Inisialisasi opsi kategori untuk formulir modal
+});
+
+async function loadAccounts(userId) {
+  const q = query(collection(db, "accounts"), where("userId", "==", userId));
+  const snapshot = await getDocs(q);
+
+  availableAccounts = [];
+  accountSelect.innerHTML = "";
+
+  let globalTotal = 0;
+
+  for (const docSnap of snapshot.docs) {
+    const acc = { id: docSnap.id, ...docSnap.data() };
+    availableAccounts.push(acc);
+
+    const qEntry = query(
+      collection(db, "entries"),
+      where("userId", "==", userId),
+      where("accountId", "==", acc.id)
+    );
+    const entriesSnap = await getDocs(qEntry);
+
+    let saldo = 0;
+    entriesSnap.forEach(e => {
+      const data = e.data();
+      if (data.type === "income") saldo += data.amount;
+      else if (data.type === "expense") saldo -= data.amount;
+    });
+
+    globalTotal += saldo;
+
+    const opt = document.createElement("option");
+    opt.value = acc.id;
+    opt.textContent = `${acc.name} (${formatRupiah(saldo)})`;
+    accountSelect.appendChild(opt);
+  }
+
+  totalBalanceText.textContent = formatRupiah(globalTotal);
+
+  if (availableAccounts.length > 0) {
+    activeAccountId = availableAccounts[0].id;
+    accountSelect.value = activeAccountId;
+    fetchEntries(userId);
+  } else {
+    accountSelect.innerHTML = "<option disabled>Tidak ada akun</option>";
+  }
+}
+
+accountSelect.addEventListener("change", () => {
+  activeAccountId = accountSelect.value;
+  fetchEntries(currentUserId);
 });

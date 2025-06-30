@@ -31,8 +31,35 @@
             width: 100%;
             height: auto;
         }
+
+        /* Styles for the new account management section */
+        .account-management-section {
+            padding: 20px;
+        }
+
+        .account-card {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .account-card h6 {
+            color: #007718;
+            font-weight: bold;
+        }
+
+        .account-card p {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .account-card .balance-amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
     </style>
-    <script type="module" src="js/account.js"></script>
 </head>
 
 <body>
@@ -55,7 +82,7 @@
             </div>
 
             <div class="col p-0 main-content-col">
-                <div class="main-content d-flex flex-column">
+                <div id="expense-tracker-section" class="main-content d-flex flex-column">
                     <div class="container py-2">
                         <div class="d-flex justify-content-between align-items-center gap-2 mb-4">
                             <div class="d-flex flex-column justify-content-center">
@@ -69,7 +96,7 @@
 
                         <div class="row">
                             <div class="col-md-5 mb-4">
-                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-none">
                                     <div>
                                         <label class="form-label mb-0 fw-semibold text-muted">Pilih Akun Bank:</label>
                                         <select id="account-select" class="form-select w-auto d-inline-block"></select>
@@ -79,13 +106,13 @@
                                         <h5 id="total-balance" class="text-success fw-bold mb-0">Rp 0</h5>
                                     </div>
                                 </div>
-                                <button id="createAccountBtn" class="btn btn-outline-success btn-sm mt-2"
+                                <button id="createAccountBtn" class="btn btn-outline-success btn-sm mt-2 d-none"
                                     data-bs-toggle="modal" data-bs-target="#accountModal">+ Tambah Akun Bank</button>
 
                                 <div class="total-saldo-box mb-4" style="background-image: url(img/balance.png);">
                                     <p class="mb-1 text-white">Total Saldo</p>
-                                    <h1 class="fw-bold text-white mb-3" id="balance">Rp 5.000.000.000,00</h1>
-                                    <button class="btn btn-light btn-sm fw-bold d-flex justify-content-start">Lihat Akun
+                                    <h1 class="fw-bold text-white mb-3" id="balance">Rp 0</h1>
+                                    <button class="btn btn-light btn-sm fw-bold d-flex justify-content-start" id="viewAccountsBtn">Lihat Akun
                                         <i class="bi bi-arrow-right"></i></button>
                                 </div>
                             </div>
@@ -110,6 +137,22 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="account-management-section" class="account-management-section d-none">
+                    <div class="container py-2">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="fw-bold" style="color: #007718;">Akun Saya</h2>
+                            <button class="btn btn-outline-secondary" id="backToExpenseBtn">
+                                <i class="bi bi-arrow-left"></i> Kembali ke Home
+                            </button>
+                        </div>
+                        <button id="addNewAccountBtn" class="btn btn-success mb-4" data-bs-toggle="modal" data-bs-target="#newAccountModal">
+                            <i class="bi bi-plus-circle me-2"></i> Tambah Akun Baru
+                        </button>
+                        <div id="accounts-list" class="row">
+                            </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -120,13 +163,16 @@
             <div class="modal-content" style="padding: 1rem;">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <h5 class="modal-title w-150 text-center" id="transactionModalLabel">Add New Transaction</h5>
+                    <h5 class="modal-title w-100 text-center" id="transactionModalLabel">Add New Transaction</h5>
                 </div>
                 <div class="modal-body">
                     <form id="expenseForm">
                         <select id="type" class="form-select mb-2" required>
                             <option value="income">Income</option>
                             <option value="expense">Expense</option>
+                        </select>
+                        <select id="bankAccountSelect" class="form-select mb-2" required>
+                            <option value="">Pilih Akun Bank</option>
                         </select>
                         <input type="text" id="amount" class="form-control mb-2" placeholder="Rp" required />
                         <select id="category" class="form-select mb-2" required></select>
@@ -143,27 +189,34 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="js/expense.js"></script>
-    <div class="modal fade" id="accountModal" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade" id="newAccountModal" tabindex="-1" aria-labelledby="newAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-3">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Akun Bank</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="newAccountModalLabel">Tambah Akun Bank Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="accountForm">
+                <form id="newAccountForm">
                     <div class="modal-body">
-                        <input type="text" id="accountName" class="form-control"
-                            placeholder="Nama Akun Bank (contoh: BCA)" required />
+                        <div class="mb-3">
+                            <label for="newAccountName" class="form-label">Nama Bank</label>
+                            <input type="text" id="newAccountName" class="form-control" placeholder="Contoh: BCA, Mandiri" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="newAccountNumber" class="form-label">Nomor Rekening</label>
+                            <input type="text" id="newAccountNumber" class="form-control" placeholder="Contoh: 1234567890" required />
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <button type="submit" class="btn btn-success">Simpan Akun</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/expense.js"></script>
 </body>
 
 </html>

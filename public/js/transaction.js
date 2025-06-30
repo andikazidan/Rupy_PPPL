@@ -19,7 +19,7 @@ const logoutBtnSidebar = document.getElementById("logoutBtnSidebar"); // Sidebar
 const filterMonth = document.getElementById("filter-month"); // Filter bulan 03/2025 (jika ada)
 const filterLastMonthBtn = document.getElementById("lastMonthBtn"); // Tombol LAST MONTH
 const filterThisMonthBtn = document.getElementById("thisMonthBtn"); // Tombol THIS MONTH
-const downloadReportBtn = document.getElementById("downloadReportBtn"); // Tombol Unduh Laporan Keuangan
+// const downloadReportBtn = document.getElementById("downloadReportBtn"); // Tombol Unduh Laporan Keuangan
 
 // --- DOM Elements (untuk modal Add Transaction, sama seperti expense.js) ---
 const expenseForm = document.getElementById("expenseForm");
@@ -325,3 +325,59 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateCategoryOptions(typeSelect.value); // Inisialisasi opsi kategori untuk formulir modal
 });
+
+// Fungsi untuk konversi dan unduh data transaksi sebagai CSV
+function downloadCSV(transactions) {
+  const csvHeader = ["Tanggal", "Waktu", "Tipe", "Jumlah", "Kategori", "Deskripsi"];
+  const csvRows = [
+    csvHeader.join(",")
+  ];
+
+  transactions.forEach(tx => {
+    const row = [
+      tx.date,
+      tx.time,
+      tx.type,
+      tx.amount,
+      `"${tx.category}"`,
+      `"${tx.description.replace(/"/g, '""')}"` // Escape kutip
+    ];
+    csvRows.push(row.join(","));
+  });
+
+  const csvString = csvRows.join("\n");
+  const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+
+  link.setAttribute("href", url);
+  link.setAttribute("download", "laporan_keuangan.csv");
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+downloadReportBtn?.addEventListener("click", async () => {
+  if (!currentUserId) return alert("User belum login.");
+  try {
+    const q = query(collection(db, "entries"), where("userId", "==", currentUserId));
+    const snapshot = await getDocs(q);
+
+    const transactions = [];
+    snapshot.forEach(docSnap => {
+      transactions.push({ id: docSnap.id, ...docSnap.data() });
+    });
+
+    if (transactions.length === 0) {
+      alert("Tidak ada transaksi untuk diunduh.");
+      return;
+    }
+
+    downloadCSV(transactions);
+  } catch (err) {
+    console.error("Gagal mengunduh laporan:", err);
+    alert("Terjadi kesalahan saat mengunduh laporan.");
+  }
+});
+

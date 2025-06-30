@@ -189,10 +189,10 @@ async function fetchTransactions(userId) {
 
     groupedTransactions[date].forEach(item => {
       const transactionItemDiv = document.createElement("div");
-      transactionItemDiv.className = `transaction-item d-flex align-items-center justify-content-between bg-light p-3 rounded mb-2`;
+      transactionItemDiv.className = `transaction-box d-flex align-items-center justify-content-between p-3 rounded mb-2`;
 
       // Tentukan warna ikon dan teks jumlah berdasarkan tipe transaksi
-      const iconClass = item.type === "income" ? "bi-arrow-down-circle-fill" : "bi-arrow-up-circle-fill"; // Ikon panah ke bawah untuk income, ke atas untuk expense
+      const iconClass = item.type === "income" ? "bi bi-caret-down-fill" : "bi bi-caret-up-fill"; // Ikon panah ke bawah untuk income, ke atas untuk expense
       const iconBgColor = item.type === "income" ? "text-success" : "text-danger"; // Warna ikon untuk income/expense
       const amountTextColor = item.type === "income" ? "text-success" : "text-danger";
       const amountSign = item.type === "income" ? "+" : "-";

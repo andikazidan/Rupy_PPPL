@@ -128,12 +128,13 @@ addTransactionBtn.addEventListener('click', async () => {
   await fetchUserAccounts(currentUserId); // Ensure userAccounts is up-to-date
 
   if (userAccounts.length === 0) {
-    // Jika tidak ada akun, alihkan langsung ke halaman manajemen akun
+    // Jika tidak ada akun, tampilkan alert dan kemudian alihkan ke halaman akun dengan pop-up 'Add Account'
+    alert("Anda perlu menambahkan setidaknya satu akun bank terlebih dahulu!");
     expenseTrackerSection.classList.add('d-none');
     accountManagementSection.classList.remove('d-none');
     await renderAccountList(currentUserId); // Render daftar akun (akan kosong atau menunjukkan pesan)
-    // Hentikan proses pembukaan modal transaksi
-    return; 
+    newAccountModal.show(); // Tampilkan pop-up "Add Account"
+    return; // Hentikan proses pembukaan modal transaksi
   }
 
   // Jika ada akun, lanjutkan untuk menampilkan modal transaksi

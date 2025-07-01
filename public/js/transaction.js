@@ -19,7 +19,7 @@ const logoutBtnSidebar = document.getElementById("logoutBtnSidebar");
 const downloadReportBtn = document.getElementById("downloadReportBtn");
 
 // Filter elements
-const filterAccountSelect = document.getElementById("filter-account"); // CHANGED: from filter-all to filter-account
+const filterAccountSelect = document.getElementById("filter-account");
 const filterDateFromInput = document.getElementById("filter-date-from");
 const filterDateToInput = document.getElementById("filter-date-to");
 const applyDateFilterBtn = document.getElementById("apply-date-filter-btn");
@@ -48,15 +48,11 @@ const expenseCategories = [
   "Travel", "Dining Out", "Donations", "Gifts", "Personal Care", "Household", "Pets", "Loan Payments", "Taxes", "Other"
 ];
 
-// Akun Management Section Elements (Perlu ditambahkan di transaction.js juga jika button 'Lihat Akun' atau 'Back to Home' ada di sini atau terkait)
-// Jika tidak ada di transaction.html, Anda bisa hapus ini:
-const expenseTrackerSection = document.getElementById("expense-tracker-section"); // Asumsi ini ada di expense.html, tapi jika diperlukan untuk alur ini di transaction.js juga.
-const accountManagementSection = document.getElementById("account-management-section"); // Asumsi ini ada di expense.html, tapi jika diperlukan untuk alur ini di transaction.js juga.
-// Jika tidak ada di transaction.html, Anda bisa hapus ini:
+// Akun Management Section Elements (Placeholder jika tidak ada di transaction.html)
+const expenseTrackerSection = document.getElementById("expense-tracker-section");
+const accountManagementSection = document.getElementById("account-management-section");
 const renderAccountList = async (userId) => {
   console.warn("renderAccountList function is a placeholder in transaction.js. This functionality is primarily in expense.js.");
-  // Implementasi dummy atau biarkan kosong jika Anda yakin halaman transaction.html tidak pernah menampilkan daftar akun.
-  // Jika Anda ingin menampilkan pesan "Anda perlu menambahkan akun" di halaman ini juga, logikanya perlu disesuaikan.
 };
 
 let currentUserId = null;
@@ -112,9 +108,6 @@ addTransactionBtn.addEventListener('click', async () => {
   if (userAccounts.length === 0) {
     // Jika tidak ada akun, alihkan pengguna ke halaman Home/Expense, lalu ke halaman manajemen akun di sana
     alert("Anda perlu menambahkan setidaknya satu akun bank terlebih dahulu!");
-    // Kita tidak bisa langsung memunculkan accountManagementSection di transaction.html
-    // karena elemen HTML untuk itu mungkin tidak ada atau alurnya berbeda.
-    // Opsi terbaik adalah mengarahkan kembali ke expense.html
     window.location.href = "expense.html"; 
     return; 
   }
@@ -169,7 +162,7 @@ onAuthStateChanged(auth, async (user) => {
     const startDateStr = filterDateFromInput.value;
     const endDateStr = filterDateToInput.value;
 
-    console.log("From (string):", startDateStr, "To (string):", endDateStr); // Debugging
+    console.log("From (string):", startDateStr, "To (string):", endDateStr);
 
     // Client-side validation for date range
     if (startDateStr && endDateStr) {
@@ -179,8 +172,8 @@ onAuthStateChanged(auth, async (user) => {
       const startDate = new Date(startY, startM - 1, startD);
       const endDate = new Date(endY, endM - 1, endD);
 
-      console.log("Parsed From Date (Object):", startDate, "Parsed To Date (Object):", endDate); // Debugging
-      console.log("Is From Date > To Date?", startDate > endDate); // Debugging
+      console.log("Parsed From Date (Object):", startDate, "Parsed To Date (Object):", endDate);
+      console.log("Is From Date > To Date?", startDate > endDate);
 
       if (startDate > endDate) {
         alert("Tanggal 'From' tidak boleh setelah tanggal 'To'.");
@@ -289,20 +282,20 @@ async function fetchTransactions(userId) {
     q = query(q, where("accountId", "==", selectedAccountIdFilter));
   }
 
-  console.log("Constructed Firestore Query:", q); // Debugging: Log the constructed query
+  console.log("Constructed Firestore Query:", q);
 
   const snapshot = await getDocs(q);
 
-  console.log("Firestore Snapshot is empty:", snapshot.empty); // Debugging: Check if snapshot is empty
+  console.log("Firestore Snapshot is empty:", snapshot.empty);
 
   let totalIncome = 0;
   let totalExpense = 0;
   const groupedTransactions = {};
-  const allEntriesForChart = []; // These are the entries AFTER applying filters
+  const allEntriesForChart = [];
 
   snapshot.forEach((docSnap) => {
     const item = { id: docSnap.id, ...docSnap.data() };
-    allEntriesForChart.push(item); // Add to chart data only if it passes filters
+    allEntriesForChart.push(item);
 
     const date = item.date;
 
@@ -318,7 +311,7 @@ async function fetchTransactions(userId) {
     }
   });
 
-  console.log("Number of entries for chart:", allEntriesForChart.length); // Debugging: Check how many entries found
+  console.log("Number of entries for chart:", allEntriesForChart.length);
 
   if (summaryIncomeText) summaryIncomeText.textContent = formatRupiah(totalIncome);
   if (summaryOutcomeText) summaryOutcomeText.textContent = formatRupiah(totalExpense);
@@ -347,6 +340,7 @@ async function fetchTransactions(userId) {
 
     groupedTransactions[date].forEach(item => {
       const transactionItemDiv = document.createElement("div");
+      // Memastikan elemen utama memiliki d-flex dan justify-content-between
       transactionItemDiv.className = `transaction-box d-flex align-items-center justify-content-between p-3 rounded mb-2`;
 
       const iconClass = item.type === "income" ? "bi bi-caret-down-fill" : "bi bi-caret-up-fill";
@@ -354,47 +348,51 @@ async function fetchTransactions(userId) {
       const amountTextColor = item.type === "income" ? "text-success" : "text-danger";
       const amountSign = item.type === "income" ? "+" : "-";
 
+      // Struktur HTML yang disesuaikan agar mirip dengan expense.js dan screenshot Home page
       transactionItemDiv.innerHTML = `
-        <div class="d-flex align-items-center">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="d-flex align-items-center">
             <div class="transaction-icon d-flex justify-content-center align-items-center rounded-circle me-3" style="width:40px; height:40px; background-color: #f0f0f0;">
                 <i class="bi ${iconClass} ${iconBgColor}" style="font-size:1.5em;"></i>
             </div>
             <div>
-                <strong class="d-block">${item.description}</strong>
-                <small class="text-muted">${item.category}</small>
-                <div class="transaction-details d-none">
-                  <div><strong>Tipe:</strong> ${item.type}</div>
-                  <div><strong>Kategori:</strong> ${item.category}</div>
-                  <div><strong>Deskripsi:</strong> ${item.description}</div>
-                  <div><strong>Waktu:</strong> ${item.time}</div>
-                  <div><strong>Akun:</strong> ${userAccounts.find(acc => acc.id === item.accountId)?.name || 'N/A'}</div>
-                </div>
+              <strong class="d-block">${item.description}</strong>
+              <small class="text-muted">${item.category}</small>
+              <div class="transaction-details d-none">
+                <div><strong>Tipe:</strong> ${item.type}</div>
+                <div><strong>Kategori:</strong> ${item.category}</div>
+                <div><strong>Deskripsi:</strong> ${item.description}</div>
+                <div><strong>Waktu:</strong> ${item.time}</div>
+                <div><strong>Akun:</strong> ${userAccounts.find(acc => acc.id === item.accountId)?.name || 'N/A'}</div>
+              </div>
             </div>
-        </div>
-        <span class="${amountTextColor} fw-bold">${amountSign}${formatRupiah(item.amount)}</span>
-      `;
-      const actionButtonsHtml = `
-        <div class="entry-action-buttons">
-            <button class="btn btn-edit-icon"><i class="bi bi-pencil-square"></i></button>
-            <button class="btn btn-delete-icon"><i class="bi bi-trash"></i></button>
-        </div>
-      `;
-      transactionItemDiv.querySelector('.d-flex.justify-content-between.align-items-center').innerHTML += actionButtonsHtml;
-
-
+          </div>
+          <div class="d-flex flex-column align-items-end"> <span class="${amountTextColor} fw-bold">${amountSign}${formatRupiah(item.amount)}</span>
+            <div class="entry-action-buttons mt-2">
+                <button class="btn btn-edit-icon"><i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-delete-icon"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+        </div>`;
+      
       const detailSection = transactionItemDiv.querySelector(".transaction-details");
       transactionItemDiv.addEventListener("click", (e) => {
+        // Pastikan klik bukan pada tombol aksi
         if (!e.target.closest(".entry-action-buttons")) {
           detailSection.classList.toggle("d-none");
         }
       });
 
-      transactionItemDiv.querySelector(".btn-delete-icon").onclick = async () => {
+      transactionItemDiv.querySelector(".btn-delete-icon").onclick = async (e) => {
+        // Mencegah event click dari menyebar ke parent div (transactionItemDiv)
+        e.stopPropagation(); 
         await deleteDoc(doc(db, "entries", item.id));
         fetchTransactions(userId);
       };
 
-      transactionItemDiv.querySelector(".btn-edit-icon").onclick = async () => {
+      transactionItemDiv.querySelector(".btn-edit-icon").onclick = async (e) => {
+        // Mencegah event click dari menyebar ke parent div (transactionItemDiv)
+        e.stopPropagation(); 
         typeSelect.value = item.type;
         updateCategoryOptions(item.type);
         bankAccountSelect.value = item.accountId;
@@ -530,7 +528,7 @@ function downloadCSV(transactions) {
   ];
 
   transactions.forEach(tx => {
-    const accountName = userAccounts.find(acc => acc.id === tx.accountId)?.name || 'N/A'; // Get account name
+    const accountName = userAccounts.find(acc => acc.id === tx.accountId)?.name || 'N/A';
     const row = [
       tx.date,
       tx.time,
@@ -560,7 +558,7 @@ downloadReportBtn?.addEventListener("click", async () => {
   if (!currentUserId) return alert("User belum login.");
   try {
     let q = query(collection(db, "entries"), where("userId", "==", currentUserId));
-    const selectedAccountIdFilter = filterAccountSelect.value; // Get selected account from filter
+    const selectedAccountIdFilter = filterAccountSelect.value;
 
     // Apply account filter to download query too
     if (selectedAccountIdFilter !== "all") {
@@ -596,10 +594,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize Datepicker
   $(function() {
     $("#filter-date-from").datepicker({
-      dateFormat: "yy-mm-dd" // Sesuaikan format tanggal Firestore Anda
+      dateFormat: "yy-mm-dd"
     });
     $("#filter-date-to").datepicker({
-      dateFormat: "yy-mm-dd" // Sesuaikan format tanggal Firestore Anda
+      dateFormat: "yy-mm-dd"
     });
   });
 });
